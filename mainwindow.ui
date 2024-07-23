@@ -17,7 +17,7 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="widget" native="true">
+   <widget class="dishes" name="widget" native="true">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -84,6 +84,14 @@
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>dishes</class>
+   <extends>QWidget</extends>
+   <header location="global">dishes.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
