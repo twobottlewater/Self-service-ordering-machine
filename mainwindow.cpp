@@ -13,8 +13,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     mtime=new QTimer(this);
-      mtime->start(1000); // 定时器每秒触发一次
-     connect(mtime, &QTimer::timeout, this, &MainWindow::update_time); // 连接定时器的timeout信号到update_time槽
+    mtime->start(1000); // 定时器每秒触发一次
+    connect(mtime, &QTimer::timeout, this, &MainWindow::update_time); // 连接定时器的timeout信号到update_time槽
+
+    ui->t_num->setText("餐桌号：" + QString::number(table_number));
+    ui->d_num->setText("就餐人数：" + QString::number(dine_number));
 
 }
 
