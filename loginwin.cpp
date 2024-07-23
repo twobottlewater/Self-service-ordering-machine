@@ -1,5 +1,6 @@
 #include "loginwin.h"
 #include "ui_loginwin.h"
+#include "mainwindow.h"
 
 loginWin::loginWin(QWidget *parent)
     : QMainWindow(parent)
@@ -13,3 +14,10 @@ loginWin::~loginWin()
     delete ui;
 }
 
+
+void loginWin::on_pushButton_clicked()
+{
+    MainWindow *mWin=new MainWindow();
+    mWin->show();
+    this->close();
+}
