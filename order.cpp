@@ -8,10 +8,14 @@
 #include <QTcpSocket>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QMessageBox>
+#include <QDebug>
 
-Order::Order(QWidget *parent) :
+Order::Order(int tableNumber, int dineNumber, QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::Order)
+    ui(new Ui::Order),
+    tableNumber(tableNumber),
+    dineNumber(dineNumber)
 {
     ui->setupUi(this);
 
@@ -25,6 +29,11 @@ Order::Order(QWidget *parent) :
      //下面的行数在下面创建
 
 
+     connect(&socket, &QTcpSocket::connected, this, &Order::recv_server);
+    connect(&socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &Order::handleSocketError);
+
+     // 异步连接到服务器
+     socket.connectToHost("192.168.1.16", 50001);
 }
 
 Order::~Order()
@@ -76,32 +85,63 @@ void Order::on_cancelBt_clicked()
 
 QString Order::packagingJson()
 {
-    qDebug()<<"json里面的数据"<<orderedItems.size();
-        QJsonObject obj;
-        QJsonArray oarr;
+    //qDebug()<<"json里面的数据"<<orderedItems.size();
 
-        for (auto it = orderedItems.begin(); it != orderedItems.end(); ++it) {
-            QJsonObject item;
-            item.insert("菜名", it.key());
-            item.insert("数量", it.value().first);
-            item.insert("单价", it.value().second.toDouble());
-            oarr.append(item);
-        }
 
-//        QJsonObject outside;
-//        outside.insert("餐桌号", MainWindow->table_number);
-//        outside.insert("就餐人数", MainWindow->dine_number);
-//        outside.insert("订单", oarr);
+    QJsonObject obj;
+    QJsonArray oarr;
 
-//        QJsonDocument doc(outside);
-//        QString Jdata = QString(doc.toJson(QJsonDocument::Compact));
-        qDebug() << Jdata;
+    for (auto it = orderedItems.begin(); it != orderedItems.end(); ++it)
+    {
+        QJsonObject item;
+        item.insert("菜名", it.key());
+        item.insert("数量", it.value().first);
+        item.insert("单价", it.value().second.toDouble());
+        oarr.append(item);
+    }
 
-        return Jdata;
+    QJsonObject outside;
+    outside.insert("餐桌号", this->tableNumber);
+    outside.insert("就餐人数", this->dineNumber);
+    outside.insert("订单", oarr);
+    outside.insert("总价", totalPrice);
+
+    QJsonDocument doc(outside);
+    QString Jdata = QString(doc.toJson(QJsonDocument::Compact));
+    qDebug() << Jdata;
+
+
+    //  qDebug()<<"测试"<< this->tableNumber;
+
+    return Jdata;
 }
 
 
 void Order::on_submitBt_clicked()
 {
+
+  if (!socket.isOpen()) {
+      qDebug() << "Socket is not open!";
+      return;
+  }
+
   QString jsonData = packagingJson();
+  qDebug() << "Sending JSON Data: " << jsonData;
+
+  socket.write(jsonData.toUtf8());
+  confirm = true;
+  emit ret_confirm_menu(confirm);
+  this->close();
+}
+
+
+void Order::recv_server()  //测试是否连接上服务器
+{
+    qDebug() << "已链接服务器!";
+
+}
+void Order::handleSocketError(QAbstractSocket::SocketError socketError)
+{
+    qDebug() << "Socket error:" << socket.errorString();
+    QMessageBox::critical(this, "Error", "Failed to connect to server: " + socket.errorString());
 }

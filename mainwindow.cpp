@@ -62,7 +62,7 @@ void MainWindow::on_orderBt_clicked()
       }
 
 
-        Order *om  = new Order(this); // 新建一个订单窗口
+        Order *om  = new Order(this->table_number, this->dine_number, this); // 新建一个订单窗口
         connect(om, &Order::ret_confirm_menu, this, &MainWindow::get_confirm_menu);
         // 将 orderedItems 传递给订单窗口
         om->setOrderedItems(orderedItems);
