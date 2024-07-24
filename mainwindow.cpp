@@ -46,6 +46,27 @@ void MainWindow::on_payBt_clicked()
 
 void MainWindow::on_serverBt_clicked()
 {
+    QTcpSocket *socket = new QTcpSocket(this);
+
+       connect(socket, &QTcpSocket::connected, [this, socket]()
+       {
+           QString serviceRequest = QString::number(table_number) + "号桌子需要服务";
+           socket->write(serviceRequest.toUtf8());
+           socket->flush();
+           socket->disconnectFromHost();
+       });
+//void Order::handleSocketError(QAbstractSocket::SocketError socketError)
+// connect(&socket, &QTcpSocket::connected, this, &Order::recv_server);
+//  connect(&socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &Order::handleSocketError);
+
+
+    connect(socket,QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, [this, socket](QAbstractSocket::SocketError socketError)
+    {
+    QMessageBox::warning(this, "错误", "无法连接到服务器: " + socket->errorString());
+    socket->deleteLater();
+    });
+
+       socket->connectToHost("127.0.0.1", 50001); // 替换为服务器的 IP 地址和端口
 
 }
 
