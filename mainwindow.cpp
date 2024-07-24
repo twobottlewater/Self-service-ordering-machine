@@ -41,7 +41,40 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_payBt_clicked()
 {
+    if (!confirm) {
+         QMessageBox::warning(this, "提示", "请确认订单后再付款！");
+         return;
+     } else {
+         if (ispayment) {
+             QMessageBox::information(this, "提示", "你已支付订单");
+             return;
+         }
 
+         // 生成订单号
+          orderNumber = generateOrderNumber();
+          //获取支付价格
+         menuprice = getPrice();
+         int ret = QMessageBox::information(this, "支付", QString("你需要支付 %1 元").arg(this->menuprice), QMessageBox::No, QMessageBox::Yes);
+         if (ret == QMessageBox::Yes) {
+             QString payInfo = QString("B.(订单号: %1)\n%2号桌已支付 %3 元").arg(orderNumber).arg(table_number).arg(menuprice);
+             QTcpSocket *socket = new QTcpSocket(this);
+
+             connect(socket, &QTcpSocket::connected, [this, socket, payInfo]() {
+                 socket->write(payInfo.toUtf8());
+                 socket->flush();
+                 socket->disconnectFromHost();
+                 this->ispayment = true;
+             });
+
+             connect(socket,QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, [this, socket](QAbstractSocket::SocketError socketError)
+             {
+             QMessageBox::warning(this, "错误", "无法连接到服务器: " + socket->errorString());
+             socket->deleteLater();
+             });
+
+             socket->connectToHost("127.0.0.1", 50001); // 替换为服务器的 IP 地址和端口
+         }
+     }
 }
 
 void MainWindow::on_serverBt_clicked()
@@ -55,9 +88,6 @@ void MainWindow::on_serverBt_clicked()
            socket->flush();
            socket->disconnectFromHost();
        });
-//void Order::handleSocketError(QAbstractSocket::SocketError socketError)
-// connect(&socket, &QTcpSocket::connected, this, &Order::recv_server);
-//  connect(&socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &Order::handleSocketError);
 
 
     connect(socket,QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, [this, socket](QAbstractSocket::SocketError socketError)
@@ -130,4 +160,24 @@ void MainWindow::setupMenuConnections()
 void MainWindow::update_time()
 {
     ui->time->setText(QDate::currentDate().toString("yyyy-MM-dd")+" "+QTime::currentTime().toString("hh:mm:ss"));
+}
+
+// 生成订单号
+QString MainWindow::generateOrderNumber()
+{
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    QString orderNumber = currentDateTime.toString("MMddhhmmss");
+    return orderNumber;
+}
+
+//获取订单价格
+double MainWindow::getPrice() const
+{
+    double totalPrice = 0;
+    for (auto it = orderedItems.begin(); it != orderedItems.end(); ++it) {
+        int quantity = it.value().first;
+        double price = it.value().second.toDouble();
+        totalPrice += price * quantity;
+    }
+    return totalPrice;
 }

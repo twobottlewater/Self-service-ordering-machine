@@ -39,13 +39,17 @@ public:
 
 private slots:
     void on_payBt_clicked();
-
     void on_serverBt_clicked();
-
     void on_orderBt_clicked();
-     void update_time();
-     void add_food(const QString &foodName, const QString &foodPrice, int count);
-      void sub_food(const QString &foodName, const QString &foodPrice, int count);
+
+    void update_time();
+
+    void add_food(const QString &foodName, const QString &foodPrice, int count);
+    void sub_food(const QString &foodName, const QString &foodPrice, int count);
+
+    QString generateOrderNumber();
+    double getPrice() const;
+
 
 private:
     Ui::MainWindow *ui;
@@ -59,6 +63,7 @@ private:
    // QTcpSocket msock;
     QMap<QString, QPair<int, QString>> orderedItems; // QMap存储食物名称、数量和价格
     void setupMenuConnections();
+      QString orderNumber;
 
 
 
