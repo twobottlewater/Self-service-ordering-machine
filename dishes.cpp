@@ -25,10 +25,31 @@ dishes::dishes(QWidget *parent) :
     ui->widget_13->setStyle(0,":/images/yin3.jpg", "茶", "3");
 
 
+    // 用所有菜单小部件初始化menuItems向量
+       menuItems.append(ui->widget);
+       menuItems.append(ui->widget_2);
+       menuItems.append(ui->widget_3);
+       menuItems.append(ui->widget_4);
+       menuItems.append(ui->widget_5);
+       menuItems.append(ui->widget_6);
+       menuItems.append(ui->widget_7);
+       menuItems.append(ui->widget_8);
+       menuItems.append(ui->widget_9);
+       menuItems.append(ui->widget_10);
+       menuItems.append(ui->widget_11);
+       menuItems.append(ui->widget_12);
+       menuItems.append(ui->widget_13);
+
 
 }
 
 dishes::~dishes()
 {
     delete ui;
+}
+
+
+QVector<menu*> dishes::getMenuItems() const
+{
+    return menuItems;
 }

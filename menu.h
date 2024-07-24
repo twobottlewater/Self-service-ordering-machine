@@ -23,8 +23,10 @@ public:
     void setFoodprice(const QString &value);
     QString getFoodprice() const;
 
+
 signals:
-    void addsignals();
+    void addsignals(const QString &foodName, const QString &foodPrice, int count);
+    void subsignals(const QString &foodName, const QString &foodPrice, int count);
 
 private slots:
     void on_addBt_clicked();

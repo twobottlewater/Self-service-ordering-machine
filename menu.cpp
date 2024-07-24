@@ -21,7 +21,7 @@ void menu::on_addBt_clicked()
     this->flag = true;
     this->food_count += 1;
     ui->food_number->setText(QString("%1").arg(food_count));
-    emit addsignals();
+    emit addsignals(get_foodname(), get_foodprice(), food_count);
 }
 
 void menu::on_subBt_clicked()
@@ -32,7 +32,7 @@ void menu::on_subBt_clicked()
     }
     this->food_count -= 1;
     ui->food_number->setText(QString("%1").arg(food_count));
-    emit addsignals();
+     emit subsignals(get_foodname(), get_foodprice(), food_count);
 }
 
 void menu::setFoodprice(const QString &value)

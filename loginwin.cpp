@@ -17,7 +17,9 @@ loginWin::~loginWin()
 
 void loginWin::on_pushButton_clicked()
 {
-    MainWindow *mWin=new MainWindow();
+    int tableNumber = ui->lineEdit->text().toInt(); // 获取餐桌号
+       int dineNumber = ui->lineEdit_2->text().toInt(); // 获取就餐人数
+    MainWindow *mWin=new MainWindow(nullptr, tableNumber, dineNumber);
     mWin->show();
     this->close();
 }
