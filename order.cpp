@@ -9,8 +9,8 @@ Order::Order(QWidget *parent) :
 
 //    this->confirm = false;
 //     this->Jdata = packagingJson(parent);
+//     MainWindow *father = (MainWindow*)parent;
 
-     MainWindow *father = (MainWindow*)parent;
      //创建头行
      ui->tableWidget->setColumnCount(3);
      ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "菜名" << "数量" << "单价");
@@ -29,7 +29,7 @@ void Order::setOrderedItems(const QMap<QString, QPair<int, QString>> &items)
     // 例如，可以使用 QTableWidget 显示订单信息
     ui->tableWidget->setRowCount(items.size()+1);
     int row = 0;
-    double totalPrice = 0;
+   totalPrice = 0;
 
     for (auto it = items.begin(); it != items.end(); ++it, ++row) {
         //处理一下字符串和数值的转换
@@ -49,4 +49,9 @@ void Order::setOrderedItems(const QMap<QString, QPair<int, QString>> &items)
      ui->tableWidget->setItem(row, 2, new QTableWidgetItem(QString::number(totalPrice, 'f', 2)));
 
      qDebug() << "Total price: " << totalPrice;
+}
+
+void Order::on_cancelBt_clicked()
+{
+     this->close();
 }

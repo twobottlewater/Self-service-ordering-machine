@@ -14,6 +14,7 @@
 #include "dishes.h"
 #include "menu.h"
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -26,11 +27,15 @@ public:
     explicit MainWindow(QWidget *parent = nullptr, int table_number = 0, int dine_number = 0);
     ~MainWindow();
 
+
+
     QTcpSocket &get_socket();
     QVector<menu*> get_menu();
     int get_number();
     int get_table_num();
     void get_confirm_menu(bool now);
+
+
 
 private slots:
     void on_payBt_clicked();
@@ -51,9 +56,12 @@ private:
     int table_number;//订单号
     bool confirm;
     bool ispayment;
-    QTcpSocket msock;
+   // QTcpSocket msock;
     QMap<QString, QPair<int, QString>> orderedItems; // QMap存储食物名称、数量和价格
     void setupMenuConnections();
+
+
+
 
 };
 

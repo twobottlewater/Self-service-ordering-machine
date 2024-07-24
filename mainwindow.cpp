@@ -10,11 +10,13 @@
 
 MainWindow::MainWindow(QWidget *parent, int table_number, int dine_number) :
     QMainWindow(parent),
+
     ui(new Ui::MainWindow),
     dine_number(dine_number),
     table_number(table_number),
     confirm(false),
-     ispayment(false)
+    ispayment(false)
+
 {
     ui->setupUi(this);
 
@@ -33,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent, int table_number, int dine_number) :
 MainWindow::~MainWindow()
 {
     delete ui;
+
+
 }
 
 void MainWindow::on_payBt_clicked()
@@ -57,15 +61,14 @@ void MainWindow::on_orderBt_clicked()
           return;
       }
 
-      Order *om = new Order(this); // 新建一个订单窗口
-      connect(om, &Order::ret_confirm_menu, this, &MainWindow::get_confirm_menu);
 
-      // 将 orderedItems 传递给订单窗口
-      om->setOrderedItems(orderedItems);
-
-      om->show();
-
+        Order *om  = new Order(this); // 新建一个订单窗口
+        connect(om, &Order::ret_confirm_menu, this, &MainWindow::get_confirm_menu);
+        // 将 orderedItems 传递给订单窗口
+        om->setOrderedItems(orderedItems);
+        om->show();
 }
+
 
 //======加菜和减菜的槽函数===========
 void MainWindow::add_food(const QString &foodName, const QString &foodPrice, int count)
