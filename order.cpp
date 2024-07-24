@@ -1,6 +1,14 @@
 #include "order.h"
 #include "ui_order.h"
 #include "mainwindow.h"
+
+//处理json的头文件
+#include <QJsonArray>
+#include <QJsonValue>
+#include <QTcpSocket>
+#include <QJsonObject>
+#include <QJsonDocument>
+
 Order::Order(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Order)
@@ -16,6 +24,7 @@ Order::Order(QWidget *parent) :
      ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "菜名" << "数量" << "单价");
      //下面的行数在下面创建
 
+
 }
 
 Order::~Order()
@@ -25,9 +34,15 @@ Order::~Order()
 
 void Order::setOrderedItems(const QMap<QString, QPair<int, QString>> &items)
 {
+    //先把他接住
+     orderedItems = items;
+
+
     // 在这里将 items 显示在 UI 上
     // 例如，可以使用 QTableWidget 显示订单信息
+
     ui->tableWidget->setRowCount(items.size()+1);
+     qDebug()<<orderedItems.size();
     int row = 0;
    totalPrice = 0;
 
@@ -54,4 +69,39 @@ void Order::setOrderedItems(const QMap<QString, QPair<int, QString>> &items)
 void Order::on_cancelBt_clicked()
 {
      this->close();
+}
+
+//先打包我的数据没问题把
+
+
+QString Order::packagingJson()
+{
+    qDebug()<<"json里面的数据"<<orderedItems.size();
+        QJsonObject obj;
+        QJsonArray oarr;
+
+        for (auto it = orderedItems.begin(); it != orderedItems.end(); ++it) {
+            QJsonObject item;
+            item.insert("菜名", it.key());
+            item.insert("数量", it.value().first);
+            item.insert("单价", it.value().second.toDouble());
+            oarr.append(item);
+        }
+
+//        QJsonObject outside;
+//        outside.insert("餐桌号", MainWindow->table_number);
+//        outside.insert("就餐人数", MainWindow->dine_number);
+//        outside.insert("订单", oarr);
+
+//        QJsonDocument doc(outside);
+//        QString Jdata = QString(doc.toJson(QJsonDocument::Compact));
+        qDebug() << Jdata;
+
+        return Jdata;
+}
+
+
+void Order::on_submitBt_clicked()
+{
+  QString jsonData = packagingJson();
 }

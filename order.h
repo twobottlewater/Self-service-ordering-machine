@@ -2,6 +2,11 @@
 #define ORDER_H
 
 #include <QMainWindow>
+#include <QMap>
+#include <QPair>
+
+
+
 
 namespace Ui {
 class Order;
@@ -16,8 +21,9 @@ public:
     ~Order();
     double totalPrice;
     void setOrderedItems(const QMap<QString, QPair<int, QString>> &items);
-    QString packagingJson();
+
      //void sendJsonData();
+     QString packagingJson();//
 
 signals:
     void ret_confirm_menu(bool now);
@@ -25,8 +31,12 @@ signals:
 private slots:
     void on_cancelBt_clicked();
 
+    void on_submitBt_clicked();
+
 private:
     Ui::Order *ui;
+       QMap<QString, QPair<int, QString>> orderedItems;
+       QString Jdata;
 
 };
 
