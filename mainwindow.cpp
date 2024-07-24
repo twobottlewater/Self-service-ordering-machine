@@ -4,6 +4,8 @@
 #include <QIcon>
 #include <QMessageBox>
 #include <QTime>
+#include "order.h"
+#include "menu.h"
 
 
 MainWindow::MainWindow(QWidget *parent, int table_number, int dine_number) :
@@ -46,8 +48,26 @@ void MainWindow::on_serverBt_clicked()
 void MainWindow::on_orderBt_clicked()
 {
 
+    if (this->confirm) {
+          QMessageBox::warning(this, "提示", "已提交订单，如需修改请呼叫前台！");
+          return;
+      }
+      if (this->orderedItems.size() == 0) {
+          QMessageBox::warning(this, "提示", "请先选菜品！");
+          return;
+      }
+
+      Order *om = new Order(this); // 新建一个订单窗口
+      connect(om, &Order::ret_confirm_menu, this, &MainWindow::get_confirm_menu);
+
+      // 将 orderedItems 传递给订单窗口
+      om->setOrderedItems(orderedItems);
+
+      om->show();
+
 }
 
+//======加菜和减菜的槽函数===========
 void MainWindow::add_food(const QString &foodName, const QString &foodPrice, int count)
 {
     orderedItems[foodName] = qMakePair(count, foodPrice);
@@ -63,6 +83,13 @@ void MainWindow::sub_food(const QString &foodName, const QString &foodPrice, int
     }
     qDebug() << "Subtracted food:" << foodName << "Price:" << foodPrice << "Count:" << count;
 }
+//=======================================
+
+void MainWindow::get_confirm_menu(bool now)
+{
+    confirm = now;
+}
+
 
 void MainWindow::setupMenuConnections()
 {

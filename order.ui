@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Order</class>
+ <widget class="QMainWindow" name="Order">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>472</width>
+    <height>628</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>10</y>
+      <width>421</width>
+      <height>441</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cancelBt">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>500</y>
+      <width>121</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>取消订单</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../01-demo/loginproject/images.qrc">
+      <normaloff>:/images/cancel.png</normaloff>:/images/cancel.png</iconset>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="submitBt">
+    <property name="geometry">
+     <rect>
+      <x>299</x>
+      <y>497</y>
+      <width>141</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>确认提交订单</string>
+    </property>
+    <property name="icon">
+     <iconset resource="../01-demo/loginproject/images.qrc">
+      <normaloff>:/images/yes.png</normaloff>:/images/yes.png</iconset>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../01-demo/loginproject/images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

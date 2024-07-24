@@ -22,7 +22,8 @@ SOURCES += \
     loginwin.cpp \
     mainwindow.cpp \
     menu.cpp \
-    mypushbutton.cpp
+    mypushbutton.cpp \
+    order.cpp
 
 HEADERS += \
     dishes.h \
@@ -30,14 +31,16 @@ HEADERS += \
     loginwin.h \
     mainwindow.h \
     menu.h \
-    mypushbutton.h
+    mypushbutton.h \
+    order.h
 
 FORMS += \
     dishes.ui \
     keyui.ui \
     loginwin.ui \
     mainwindow.ui \
-    menu.ui
+    menu.ui \
+    order.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
