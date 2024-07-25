@@ -75,18 +75,24 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>6</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>TextLabel</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="d_num">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>140</y>
+      <x>10</x>
+      <y>130</y>
       <width>151</width>
       <height>31</height>
      </rect>

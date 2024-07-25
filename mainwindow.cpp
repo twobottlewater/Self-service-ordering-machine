@@ -72,7 +72,7 @@ void MainWindow::on_payBt_clicked()
              socket->deleteLater();
              });
 
-             socket->connectToHost("127.0.0.1", 50001); // 替换为服务器的 IP 地址和端口
+             socket->connectToHost("192.168.1.16", 50001); // 替换为服务器的 IP 地址和端口
          }
      }
 }
@@ -96,7 +96,7 @@ void MainWindow::on_serverBt_clicked()
     socket->deleteLater();
     });
 
-       socket->connectToHost("127.0.0.1", 50001); // 替换为服务器的 IP 地址和端口
+       socket->connectToHost("192.168.1.16", 50001); // 替换为服务器的 IP 地址和端口
 
 }
 
