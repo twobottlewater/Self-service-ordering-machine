@@ -1,0 +1,13 @@
+# Linux
+*~
+.directory
+# C/C++
+*.out
+*.obj
+*.o
+*.exe
+*.dll
+*.so
+*.a
+*.lib
+*.pdb
